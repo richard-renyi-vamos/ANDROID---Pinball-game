@@ -59,4 +59,32 @@ public class PinballView extends View {
         paint.setColor(Color.GREEN);
         canvas.save();
         canvas.rotate(-flipperRightAngle, getWidth() - 150, getHeight() - 100);
-        canvas.drawRect(getWidth() - 200, getHeight() - 120, getWidth() - 100
+        canvas.drawRect(getWidth() - 200, getHeight() - 120, getWidth() - 100, getHeight() - 80, paint);
+        canvas.restore();
+
+        // Invalidate to trigger redraw
+        invalidate();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (event.getX() < getWidth() / 2) {
+                    flipperLeftActive = true;
+                    flipperLeftAngle = 30;
+                } else {
+                    flipperRightActive = true;
+                    flipperRightAngle = 30;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                flipperLeftActive = false;
+                flipperRightActive = false;
+                flipperLeftAngle = 0;
+                flipperRightAngle = 0;
+                break;
+        }
+        return true;
+    }
+}
